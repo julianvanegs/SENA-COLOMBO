@@ -1,0 +1,28 @@
+services:
+  postgres:
+    image: postgres:16
+
+    container_name: PRUEBA
+
+    restart: unless-stopped
+
+    environment:
+      POSTGRES_DB: bd_byd
+      POSTGRES_USER: postgres
+      POSTGRES_PASSWORD: 1974
+
+    ports:
+      - "5434:5432"
+
+    volumes:
+      - postgres_data:/var/lib/postgresql/data
+      - ./db:/docker-entrypoint-initdb.d
+
+    healthcheck:
+      test: ["CMD-SHELL", "pg_isready -U postgres -d BD_Ventas"]
+      interval: 10s
+      timeout: 5s
+      retries: 5
+
+volumes:
+  postgres_data:
